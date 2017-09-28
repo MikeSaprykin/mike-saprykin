@@ -1,0 +1,79 @@
+body, html {
+  position: relative;
+  height: 100%;
+  width: 100%;
+  margin: 0;
+  padding: 0;
+}
+
+.overlay {
+  background: rgba(0, 0, 0, .24);
+  position: fixed;
+}
+
+.show-overlay {
+  top: 0;
+  bottom: 0;
+  left: 0;
+  right: 0;
+}
+
+.hide-overlay {
+  top: 0;
+  right: 0;
+}
+
+.hamburger {
+  right: 0;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  height: 30px;
+  width: 35px;
+  position: relative;
+  overflow: hidden;
+  z-index: 120;
+  transform: translate3d(0, 0, 0);
+}
+
+.hamburger__bar {
+  display: block;
+  width: 22px;
+  height: 2px;
+  margin: 2px 0;
+  background: black;
+  transition: all 0.1s ease-in-out;
+  opacity: 1;
+}
+
+.hamburger.active .hamburger__bar:nth-child(1) {
+  transform: translateY(6px) rotate(45deg);
+}
+.hamburger.active .hamburger__bar:nth-child(2) {
+  opacity: 0;
+}
+.hamburger.active .hamburger__bar:nth-child(3) {
+  transform: translateY(-6px) rotate(-45deg);
+}
+
+.side-bar-open {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  transition: width .1s linear;
+  background: red;
+  width: 200px;
+}
+
+.side-bar-closed {
+  position: fixed;
+  top: 0;
+  bottom: 0;
+  left: 0;
+  background: red;
+  transition: width .1s linear;
+  width: 0;
+}
