@@ -91,10 +91,17 @@ generateSideBar : Bool -> List (Html Msg) -> Html Msg
 generateSideBar open elements =
     div [ generateSideBarClass open ] elements
 
+sideBarAnchors : List (Html msg)
+sideBarAnchors =
+    [ a [] [text "About me"]
+    , a [] [text "Skills"]
+    , a [] [text "Projects"]
+    , a [] [text "Contacts"]
+    ]
 
-emptySideBar : Model -> Html Msg
-emptySideBar model =
-    generateSideBar model.sideBarOpen []
+sideBarMenu : Bool -> Html Msg
+sideBarMenu open =
+    generateSideBar open sideBarAnchors
 
 
 hamburgerOpen =
@@ -107,8 +114,8 @@ hamburgerClosed =
 hamburgerBar =
     "hamburger__bar"
 
-hamburgerClassGenerator : Bool -> Attribute Msg
-hamburgerClassGenerator open =
+hamburgerClass : Bool -> Attribute Msg
+hamburgerClass open =
     conditionalClassToggle open hamburgerOpen hamburgerClosed
 
 
@@ -118,7 +125,7 @@ generateHamburgerBars =
 
 sideBarHamburger : Bool -> Html Msg
 sideBarHamburger sideBarOpen =
-    div [ onClick ToggleSideBar, hamburgerClassGenerator sideBarOpen ]
+    div [ onClick ToggleSideBar, hamburgerClass sideBarOpen ]
         generateHamburgerBars
 
 
@@ -126,7 +133,7 @@ view : Model -> Html Msg
 view model =
     div [ class "side-bar" ]
         [ generateOverlay model.sideBarOpen
-        , emptySideBar model
+        , sideBarMenu model.sideBarOpen
         , sideBarHamburger model.sideBarOpen
         ]
 
