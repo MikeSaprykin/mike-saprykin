@@ -7,7 +7,7 @@ body, html {
 }
 
 .overlay {
-  background: rgba(0, 0, 0, .24);
+  background: rgba(255, 255, 255, 0.34);
   position: fixed;
 }
 
@@ -32,7 +32,8 @@ body, html {
   flex-direction: column;
   height: 30px;
   width: 35px;
-  position: relative;
+  position: absolute;
+  right: 0;
   overflow: hidden;
   z-index: 120;
   transform: translate3d(0, 0, 0);
@@ -40,6 +41,7 @@ body, html {
 
 .hamburger__bar {
   display: block;
+  right: 0;
   width: 22px;
   height: 2px;
   margin: 2px 0;
@@ -58,22 +60,23 @@ body, html {
   transform: translateY(-6px) rotate(-45deg);
 }
 
-.side-bar-open {
+.side-bar {
+  transition: width .1s linear;
   position: fixed;
   top: 0;
   bottom: 0;
   left: 0;
-  transition: width .1s linear;
-  background: red;
+  background: white;
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+}
+
+.side-bar-open {
+  box-shadow: 0 3px 6px rgba(0,0,0, .16), 0 3px 6px rgba(0,0,0, .22);
   width: 200px;
 }
 
 .side-bar-closed {
-  position: fixed;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  background: red;
-  transition: width .1s linear;
   width: 0;
 }
