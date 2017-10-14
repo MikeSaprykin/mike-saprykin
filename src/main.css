@@ -7,7 +7,7 @@ body, html {
 }
 
 .overlay {
-  background: rgba(255, 255, 255, 0.34);
+  background: rgba(255, 255, 255, 0.5);
   position: fixed;
 }
 
@@ -75,6 +75,11 @@ body, html {
   /*display: flex;*/
   /*align-items: center;*/
   /*justify-content: center;*/
+}
+
+header.header-block {
+  height: 250px;
+  border: 1px solid red;
 }
 
 .side-bar-anchor {
