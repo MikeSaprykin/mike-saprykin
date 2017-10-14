@@ -32,6 +32,7 @@
     "typescript": "^2.5.3"
   },
   "devDependencies": {
-    "create-elm-app": "^1.8.0"
+    "create-elm-app": "^1.8.0",
+    "elm": "^0.18.0"
   }
 }
