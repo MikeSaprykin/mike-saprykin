@@ -4,6 +4,7 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 
+
 ---- MODEL ----
 
 
@@ -36,12 +37,15 @@ update msg model =
     case msg of
         None ->
             ( model, Cmd.none )
+
         ToggleSideBar ->
             ( { model | sideBarOpen = not model.sideBarOpen }, Cmd.none )
 
----- VIEW ----
 
+
+---- VIEW ----
 --- SIDE BAR ---
+
 
 conditionalClassToggle : Bool -> String -> String -> Attribute Msg
 conditionalClassToggle active activeClass notActiveClass =
@@ -52,9 +56,11 @@ conditionalClassToggle active activeClass notActiveClass =
             notActiveClass
         )
 
-overlayShowClass: String
+
+overlayShowClass : String
 overlayShowClass =
     "overlay show-overlay"
+
 
 overlayHideClass : String
 overlayHideClass =
@@ -71,9 +77,11 @@ generateOverlay show =
     div [ generateOverlayClass show ]
         []
 
+
 sideBarOpenClass : String
 sideBarOpenClass =
     "side-bar side-bar-open"
+
 
 sideBarClosedClass : String
 sideBarClosedClass =
@@ -90,18 +98,27 @@ generateSideBar open elements =
     div [ generateSideBarClass open ] elements
 
 
-sideBarAnchors : List (Html msg)
+sideBarAnchorBlock : String -> Html Msg
+sideBarAnchorBlock anchorText =
+    div [ class "side-bar-anchor-wrapper" ]
+        [ a [ class "side-bar-anchor", onClick ToggleSideBar ]
+            [ text anchorText ]
+        ]
+
+
+sideBarAnchors : List (Html Msg)
 sideBarAnchors =
-    [ a [] [ text "About me" ]
-    , a [] [ text "Skills" ]
-    , a [] [ text "Projects" ]
-    , a [] [ text "Contacts" ]
-    ]
+    let
+        skills =
+            [ "About me", "Skills", "Projects", "Contacts" ]
+    in
+        skills |> List.map (\s -> sideBarAnchorBlock s)
 
 
 sideBarMenu : Bool -> Html Msg
 sideBarMenu open =
     generateSideBar open sideBarAnchors
+
 
 sideBarView : Model -> Html Msg
 sideBarView sideBarState =
@@ -110,7 +127,10 @@ sideBarView sideBarState =
         , sideBarMenu sideBarState.sideBarOpen
         ]
 
+
+
 --- END OF SIDE BAR ---
+
 
 hamburgerOpen =
     "hamburger active"
@@ -139,12 +159,15 @@ sideBarHamburger sideBarOpen =
     div [ onClick ToggleSideBar, hamburgerClass sideBarOpen ]
         generateHamburgerBars
 
+
 view : Model -> Html Msg
 view model =
     div [ class "side-bar-container" ]
         [ sideBarView model
         , sideBarHamburger model.sideBarOpen
         ]
+
+
 
 ---- PROGRAM ----
 

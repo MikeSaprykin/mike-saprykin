@@ -60,7 +60,7 @@ body, html {
 }
 
 .side-bar {
-  transition: width .1s linear;
+  transition: all .120s linear;
   position: fixed;
   top: 0;
   bottom: 0;
@@ -71,9 +71,33 @@ body, html {
   overflow: hidden;
 }
 
+.side-bar-anchor-wrapper {
+  /*display: flex;*/
+  /*align-items: center;*/
+  /*justify-content: center;*/
+}
+
+.side-bar-anchor {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 40px;
+  width: 200px;
+  cursor: pointer;
+  border-bottom: 1px solid #eee;
+}
+
+.side-bar-anchor:hover {
+  transition: all .1s linear;
+  background: #eee;
+}
+
 .side-bar-open {
   box-shadow: 0 3px 6px rgba(0,0,0, .16), 0 3px 6px rgba(0,0,0, .22);
   width: 200px;
+}
+
+.side-bar-open .side-bar-anchor {
 }
 
 .side-bar-closed {
