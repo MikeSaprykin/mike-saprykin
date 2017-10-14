@@ -1,0 +1,38 @@
+{
+  "name": "profile-mike-elm",
+  "version": "0.0.0",
+  "description": "Mike Saprykin web software engineer profile page. With description of skills and projects profile page. Written in ELM This project is bootstrapped with [Create Elm App](https://github.com/halfzebra/create-elm-app).",
+  "main": "index.js",
+  "directories": {
+    "test": "tests"
+  },
+  "scripts": {
+    "postinstall": "elm-package install -y",
+    "build": "elm-app build",
+    "start": "elm-app start",
+    "server": "ts-node server.ts",
+    "pretest": "cd tests && elm-package install -y",
+    "test": "elm-app test"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/MikeSaprykin/mike-saprykin.git"
+  },
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/MikeSaprykin/mike-saprykin/issues"
+  },
+  "homepage": "https://github.com/MikeSaprykin/mike-saprykin#readme",
+  "dependencies": {
+    "@types/express": "^4.0.37",
+    "compression": "^1.7.1",
+    "express": "^4.16.2",
+    "ts-node": "^3.3.0",
+    "typescript": "^2.5.3"
+  },
+  "devDependencies": {
+    "create-elm-app": "^1.8.0",
+    "elm": "^0.18.0"
+  }
+}
