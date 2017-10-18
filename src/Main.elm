@@ -162,9 +162,18 @@ sideBarHamburger sideBarOpen =
 
 view : Model -> Html Msg
 view model =
-    div [ class "side-bar-container" ]
-        [ sideBarView model
-        , sideBarHamburger model.sideBarOpen
+    section [ class "app" ]
+        [ header [ class "header-block" ]
+            [ sideBarHamburger model.sideBarOpen
+            , div [ class "header-overlay" ] []
+            , div [ class "header-description" ]
+                [ h1 [] [ text "Mike Saprykin" ]
+                , h2 [] [ text "Software Engineer" ]
+                ]
+            , div [ class "header-image" ] []
+            ]
+        , section [ class "side-bar-container" ]
+            [ sideBarView model ]
         ]
 
 
