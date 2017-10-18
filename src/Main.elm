@@ -151,7 +151,7 @@ hamburgerClass open =
 
 generateHamburgerBars : List (Html Msg)
 generateHamburgerBars =
-    List.map (\n -> span [ class hamburgerBar ] []) (List.range 1 3)
+    List.range 1 3 |> List.map (\n -> span [ class hamburgerBar ] [])
 
 
 sideBarHamburger : Bool -> Html Msg
@@ -162,7 +162,7 @@ sideBarHamburger sideBarOpen =
 
 view : Model -> Html Msg
 view model =
-    section [ class "app" ]
+    div [ class "app" ]
         [ header [ class "header-block" ]
             [ sideBarHamburger model.sideBarOpen
             , div [ class "header-overlay" ] []
@@ -172,8 +172,40 @@ view model =
                 ]
             , div [ class "header-image" ] []
             ]
-        , section [ class "side-bar-container" ]
+        , div [ class "side-bar-container" ]
             [ sideBarView model ]
+        , div [ id "about-me" ]
+            [ h3 [ class "about-me-block" ] [ text "About me" ]
+            , p [ class "about-me-text" ]
+                [ text """
+                  Lorem ipsum dolor sit amet,
+                  consectetur adipiscing elit. Donec consequat libero at purus ultrices,
+                  vel euismod metus feugiat. Vestibulum placerat nibh nisi, in rutrum leo mollis quis.
+                  Nulla quis nisl nec metus auctor dapibus. Curabitur ut nunc id diam ornare tempor.
+                  Nulla sollicitudin scelerisque neque, vitae rutrum ipsum tincidunt sit amet.
+                  """
+                ]
+            , h3 [ class "professional-interests" ] [ text "Professional interests" ]
+              , p [ class "professional-interests-text" ]
+                  [ text """
+                    Lorem ipsum dolor sit amet,
+                    consectetur adipiscing elit. Donec consequat libero at purus ultrices,
+                    vel euismod metus feugiat. Vestibulum placerat nibh nisi, in rutrum leo mollis quis.
+                    Nulla quis nisl nec metus auctor dapibus. Curabitur ut nunc id diam ornare tempor.
+                    Nulla sollicitudin scelerisque neque, vitae rutrum ipsum tincidunt sit amet.
+                    """
+                  ]
+              , h3 [ class "hobbies" ] [ text "Hobbies" ]
+                , p [ class "hobbies-text" ]
+                    [ text """
+                      Lorem ipsum dolor sit amet,
+                      consectetur adipiscing elit. Donec consequat libero at purus ultrices,
+                      vel euismod metus feugiat. Vestibulum placerat nibh nisi, in rutrum leo mollis quis.
+                      Nulla quis nisl nec metus auctor dapibus. Curabitur ut nunc id diam ornare tempor.
+                      Nulla sollicitudin scelerisque neque, vitae rutrum ipsum tincidunt sit amet.
+                      """
+                    ]
+            ]
         ]
 
 
