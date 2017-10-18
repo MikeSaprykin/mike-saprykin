@@ -3,6 +3,7 @@ module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
+import AboutMe exposing (generateAboutMeView, defaultAboutMeData)
 
 
 ---- MODEL ----
@@ -174,38 +175,7 @@ view model =
             ]
         , div [ class "side-bar-container" ]
             [ sideBarView model ]
-        , div [ id "about-me" ]
-            [ h3 [ class "about-me-block" ] [ text "About me" ]
-            , p [ class "about-me-text" ]
-                [ text """
-                  Lorem ipsum dolor sit amet,
-                  consectetur adipiscing elit. Donec consequat libero at purus ultrices,
-                  vel euismod metus feugiat. Vestibulum placerat nibh nisi, in rutrum leo mollis quis.
-                  Nulla quis nisl nec metus auctor dapibus. Curabitur ut nunc id diam ornare tempor.
-                  Nulla sollicitudin scelerisque neque, vitae rutrum ipsum tincidunt sit amet.
-                  """
-                ]
-            , h3 [ class "professional-interests" ] [ text "Professional interests" ]
-              , p [ class "professional-interests-text" ]
-                  [ text """
-                    Lorem ipsum dolor sit amet,
-                    consectetur adipiscing elit. Donec consequat libero at purus ultrices,
-                    vel euismod metus feugiat. Vestibulum placerat nibh nisi, in rutrum leo mollis quis.
-                    Nulla quis nisl nec metus auctor dapibus. Curabitur ut nunc id diam ornare tempor.
-                    Nulla sollicitudin scelerisque neque, vitae rutrum ipsum tincidunt sit amet.
-                    """
-                  ]
-              , h3 [ class "hobbies" ] [ text "Hobbies" ]
-                , p [ class "hobbies-text" ]
-                    [ text """
-                      Lorem ipsum dolor sit amet,
-                      consectetur adipiscing elit. Donec consequat libero at purus ultrices,
-                      vel euismod metus feugiat. Vestibulum placerat nibh nisi, in rutrum leo mollis quis.
-                      Nulla quis nisl nec metus auctor dapibus. Curabitur ut nunc id diam ornare tempor.
-                      Nulla sollicitudin scelerisque neque, vitae rutrum ipsum tincidunt sit amet.
-                      """
-                    ]
-            ]
+        , generateAboutMeView defaultAboutMeData
         ]
 
 
