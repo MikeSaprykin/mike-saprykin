@@ -3,15 +3,25 @@ module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-import AboutMe exposing (generateAboutMeView, defaultAboutMeData)
 
+import Http
+import Json.Decode as Decode
+
+import AboutMe exposing (generateAboutMeView, defaultAboutMeData)
 
 ---- MODEL ----
 
+type alias HttpResData =
+    { userId : Int
+    , id : Int
+    , title : String
+    , body : String
+    }
 
 type alias Model =
     { sideBarOpen : Bool
     , mainImage : String
+    , response : Maybe HttpResData
     }
 
 
@@ -19,8 +29,9 @@ init : ( Model, Cmd Msg )
 init =
     ( { sideBarOpen = False
       , mainImage = ""
+      , response = Nothing
       }
-    , Cmd.none
+    , loadData
     )
 
 
@@ -31,6 +42,8 @@ init =
 type Msg
     = None
     | ToggleSideBar
+    | LoadData
+    | LoadDataResult (Result Http.Error HttpResData)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -42,7 +55,32 @@ update msg model =
         ToggleSideBar ->
             ( { model | sideBarOpen = not model.sideBarOpen }, Cmd.none )
 
+        LoadData ->
+            ( model, Cmd.none )
 
+        LoadDataResult (Ok data) ->
+            ( { model | response = Just data }, Cmd.none)
+
+        LoadDataResult (Err _) ->
+              (model, Cmd.none)
+
+loadData : Cmd Msg
+loadData =
+    let
+        apiUrl = "https://jsonplaceholder.typicode.com/posts/1"
+
+        request =
+            Http.get apiUrl decodeData
+    in
+        Http.send LoadDataResult request
+
+decodeData : Decode.Decoder HttpResData
+decodeData =
+    Decode.map4 HttpResData
+        (Decode.field "userId" Decode.int)
+        (Decode.field "id" Decode.int)
+        (Decode.field "title" Decode.string)
+        (Decode.field "body" Decode.string)
 
 ---- VIEW ----
 --- SIDE BAR ---
@@ -132,15 +170,15 @@ sideBarView sideBarState =
 
 --- END OF SIDE BAR ---
 
-
+hamburgerOpen : String
 hamburgerOpen =
     "hamburger active"
 
-
+hamburgerClosed : String
 hamburgerClosed =
     "hamburger"
 
-
+hamburgerBar : String
 hamburgerBar =
     "hamburger__bar"
 
@@ -161,6 +199,21 @@ sideBarHamburger sideBarOpen =
         generateHamburgerBars
 
 
+generatePostData : Model -> Html Msg
+generatePostData model =
+    div [] (generateConditionalPostData model)
+
+generateConditionalPostData : Model -> List(Html Msg)
+generateConditionalPostData model =
+    case model.response of
+        Just response ->
+            [
+                p [] [text response.title],
+                p [] [text response.body]
+            ]
+        Nothing ->
+            []
+
 view : Model -> Html Msg
 view model =
     div [ class "app" ]
@@ -176,8 +229,9 @@ view model =
         , div [ class "side-bar-container" ]
             [ sideBarView model ]
         , generateAboutMeView defaultAboutMeData
+        , hr [] []
+        , generatePostData model
         ]
-
 
 
 ---- PROGRAM ----
