@@ -3,13 +3,14 @@ module Main exposing (..)
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
-
 import Http
 import Json.Decode as Decode
-
+import Json.Encode as Encode
 import AboutMe exposing (generateAboutMeView, defaultAboutMeData)
 
+
 ---- MODEL ----
+
 
 type alias HttpResData =
     { userId : Int
@@ -17,6 +18,7 @@ type alias HttpResData =
     , title : String
     , body : String
     }
+
 
 type alias Model =
     { sideBarOpen : Bool
@@ -39,6 +41,43 @@ init =
 ---- UPDATE ----
 
 
+graphQLApiUrl : String
+graphQLApiUrl =
+    "http://localhost:8080/graphql"
+
+
+descriptionsQuery : String
+descriptionsQuery =
+    """
+        {
+            descriptions {
+              title
+              _id
+              description
+              icon
+            }
+        }
+    """
+
+
+type alias QueryPayload =
+    { query : String
+    , operationName : String
+    , variables : {}
+    }
+
+
+generateQuery : String -> Http.Body
+generateQuery query =
+    Http.jsonBody
+        (Encode.object
+            [ ( "query", Encode.string <| query )
+            , ( "operationName", Encode.string <| "" )
+            , ( "variables", Encode.object [ ( "", Encode.string <| "" ) ] )
+            ]
+        )
+
+
 type Msg
     = None
     | ToggleSideBar
@@ -59,28 +98,30 @@ update msg model =
             ( model, Cmd.none )
 
         LoadDataResult (Ok data) ->
-            ( { model | response = Just data }, Cmd.none)
+            ( { model | response = Just data }, Cmd.none )
 
         LoadDataResult (Err _) ->
-              (model, Cmd.none)
+            ( model, Cmd.none )
+
 
 loadData : Cmd Msg
 loadData =
     let
-        apiUrl = "https://jsonplaceholder.typicode.com/posts/1"
-
         request =
-            Http.get apiUrl decodeData
+            Http.post graphQLApiUrl (generateQuery descriptionsQuery) decodeData
     in
         Http.send LoadDataResult request
+
 
 decodeData : Decode.Decoder HttpResData
 decodeData =
     Decode.map4 HttpResData
-        (Decode.field "userId" Decode.int)
-        (Decode.field "id" Decode.int)
-        (Decode.field "title" Decode.string)
-        (Decode.field "body" Decode.string)
+        (Decode.field "title" Decode.int)
+        (Decode.field "_id" Decode.int)
+        (Decode.field "description" Decode.string)
+        (Decode.field "icon" Decode.string)
+
+
 
 ---- VIEW ----
 --- SIDE BAR ---
@@ -170,13 +211,16 @@ sideBarView sideBarState =
 
 --- END OF SIDE BAR ---
 
+
 hamburgerOpen : String
 hamburgerOpen =
     "hamburger active"
 
+
 hamburgerClosed : String
 hamburgerClosed =
     "hamburger"
+
 
 hamburgerBar : String
 hamburgerBar =
@@ -203,16 +247,18 @@ generatePostData : Model -> Html Msg
 generatePostData model =
     div [] (generateConditionalPostData model)
 
-generateConditionalPostData : Model -> List(Html Msg)
+
+generateConditionalPostData : Model -> List (Html Msg)
 generateConditionalPostData model =
     case model.response of
         Just response ->
-            [
-                p [] [text response.title],
-                p [] [text response.body]
+            [ p [] [ text response.title ]
+            , p [] [ text response.body ]
             ]
+
         Nothing ->
             []
+
 
 view : Model -> Html Msg
 view model =
@@ -232,6 +278,7 @@ view model =
         , hr [] []
         , generatePostData model
         ]
+
 
 
 ---- PROGRAM ----
