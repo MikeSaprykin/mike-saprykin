@@ -82,7 +82,7 @@ jobs:
 
 workflows:
   version: 2
-  test-and-build:
+  test:
     jobs:
       - test
       - docker-build:
