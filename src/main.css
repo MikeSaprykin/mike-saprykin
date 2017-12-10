@@ -7,7 +7,7 @@ body, html {
 }
 
 .overlay {
-  background: rgba(255, 255, 255, 0.34);
+  background: rgba(0, 0, 0, 0.5);
   position: fixed;
 }
 
@@ -24,7 +24,8 @@ body, html {
 }
 
 .hamburger {
-  right: 0;
+  right: 10px;
+  top: 10px;
   cursor: pointer;
   display: flex;
   align-items: center;
@@ -44,7 +45,7 @@ body, html {
   width: 22px;
   height: 2px;
   margin: 2px 0;
-  background: black;
+  background: #fff;
   transition: all 0.1s ease-in-out;
   opacity: 1;
 }
@@ -62,6 +63,7 @@ body, html {
 .side-bar {
   transition: all .120s linear;
   position: fixed;
+  z-index: 400;
   top: 0;
   bottom: 0;
   left: 0;
@@ -75,6 +77,46 @@ body, html {
   /*display: flex;*/
   /*align-items: center;*/
   /*justify-content: center;*/
+}
+
+header.header-block {
+  height: 240px;
+  position: relative;
+  background-image: url(../public/js-background.png);
+  background-size: contain;
+  box-shadow: 0 1px 3px rgba(0,0,0, .10), 0 1px 2px rgba(0,0,0, .18);;
+}
+
+header .header-overlay {
+  position: absolute;
+  height: 100%;
+  width: 100%;
+  top: 0;
+  left: 0;
+  background: rgba(0, 0, 0, 0.3);
+  background: -moz-linear-gradient(top, rgba(0,0,0,0.85) 0%, rgba(0,0,0,0.2) 100%);
+  background: -webkit-linear-gradient(top, rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 100%);
+  background: linear-gradient(to bottom, rgba(0,0,0,0.85) 0%,rgba(0,0,0,0.2) 100%);
+  filter: progid:DXImageTransform.Microsoft.gradient( startColorstr='#d9000000', endColorstr='#33000000',GradientType=0 );
+}
+
+header.header-block .header-description {
+  padding-top: 1rem;
+  position: relative;
+  z-index: 20;
+  color: #fff;
+  text-align: center;
+}
+
+header.header-block .header-image {
+  min-height: 180px;
+  width: 180px;
+  position: absolute;
+  left: 44%;
+  border-radius: 50%;
+  box-shadow: 0 1px 3px rgba(0,0,0, .14), 0 1px 2px rgba(0,0,0, .22);
+  background: url(../public/mike.jpg);
+  background-size: cover;
 }
 
 .side-bar-anchor {

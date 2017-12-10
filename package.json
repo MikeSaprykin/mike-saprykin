@@ -12,6 +12,7 @@
     "start": "elm-app start",
     "server": "ts-node server.ts",
     "pretest": "cd tests && elm-package install -y",
+    "format": "elm-format src --yes",
     "test": "elm-app test"
   },
   "repository": {
