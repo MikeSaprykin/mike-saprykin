@@ -4,26 +4,59 @@ import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Http
-import Json.Decode as Decode
+import Json.Decode as Decode exposing (..)
+import Json.Decode.Extra exposing (..)
 import Json.Encode as Encode
-import AboutMe exposing (generateAboutMeView, defaultAboutMeData)
+import Debug exposing (log)
+import Css exposing (..)
 
 
 ---- MODEL ----
 
 
-type alias HttpResData =
-    { userId : Int
-    , id : Int
+type alias Description =
+    { icon : String
     , title : String
-    , body : String
+    , description : String
+    , id : String
     }
+
+
+type alias Descriptions =
+    { data : DescriptionsData
+    }
+
+
+type alias DescriptionsData =
+    { descriptions : List Description
+    }
+
+
+decodeDescription : Decode.Decoder Descriptions
+decodeDescription =
+    Decode.succeed Descriptions
+        |: (field "data" decodeDescriptionData)
+
+
+decodeDescriptionData : Decode.Decoder DescriptionsData
+decodeDescriptionData =
+    Decode.succeed DescriptionsData
+        |: (field "descriptions" (Decode.list decodeDescriptionItem))
+
+
+decodeDescriptionItem : Decode.Decoder Description
+decodeDescriptionItem =
+    map4 Description
+        (field "icon" string)
+        (field "title" string)
+        (field "description" string)
+        (field "_id" string)
 
 
 type alias Model =
     { sideBarOpen : Bool
     , mainImage : String
-    , response : Maybe HttpResData
+    , response : Maybe Descriptions
     }
 
 
@@ -82,7 +115,7 @@ type Msg
     = None
     | ToggleSideBar
     | LoadData
-    | LoadDataResult (Result Http.Error HttpResData)
+    | LoadDataResult (Result Http.Error Descriptions)
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -108,18 +141,9 @@ loadData : Cmd Msg
 loadData =
     let
         request =
-            Http.post graphQLApiUrl (generateQuery descriptionsQuery) decodeData
+            Http.post graphQLApiUrl (generateQuery descriptionsQuery) decodeDescription
     in
         Http.send LoadDataResult request
-
-
-decodeData : Decode.Decoder HttpResData
-decodeData =
-    Decode.map4 HttpResData
-        (Decode.field "title" Decode.int)
-        (Decode.field "_id" Decode.int)
-        (Decode.field "description" Decode.string)
-        (Decode.field "icon" Decode.string)
 
 
 
@@ -192,7 +216,7 @@ sideBarAnchors =
         skills =
             [ "About me", "Skills", "Projects", "Contacts" ]
     in
-        skills |> List.map (\s -> sideBarAnchorBlock s)
+        skills |> List.map sideBarAnchorBlock
 
 
 sideBarMenu : Bool -> Html Msg
@@ -243,21 +267,33 @@ sideBarHamburger sideBarOpen =
         generateHamburgerBars
 
 
-generatePostData : Model -> Html Msg
-generatePostData model =
-    div [] (generateConditionalPostData model)
+generateAboutMeItem : Description -> Html msg
+generateAboutMeItem item =
+    div []
+        [ h3 [ class item.title ] [ text item.title ]
+        , i [ class item.icon ] []
+        , p [] [ text item.description ]
+        ]
 
 
-generateConditionalPostData : Model -> List (Html Msg)
-generateConditionalPostData model =
+generateAboutMeBlocks : Model -> List (Html msg)
+generateAboutMeBlocks model =
     case model.response of
         Just response ->
-            [ p [] [ text response.title ]
-            , p [] [ text response.body ]
-            ]
+            let
+                items =
+                    response.data.descriptions
+            in
+                items
+                    |> List.map generateAboutMeItem
 
         Nothing ->
             []
+
+
+generateAboutMeView : Model -> Html msg
+generateAboutMeView model =
+    div [ class "about-me-block" ] <| generateAboutMeBlocks model
 
 
 view : Model -> Html Msg
@@ -274,9 +310,8 @@ view model =
             ]
         , div [ class "side-bar-container" ]
             [ sideBarView model ]
-        , generateAboutMeView defaultAboutMeData
+        , generateAboutMeView model
         , hr [] []
-        , generatePostData model
         ]
 
 
