@@ -2,16 +2,18 @@ module Categories.View exposing (..)
 
 import Html exposing (..)
 import Html.Attributes exposing (..)
+import Html.Events exposing (onClick)
 import Categories.Models exposing (..)
 import Technologies.Models exposing (..)
 import Technologies.Views exposing (..)
 import Categories.Update exposing (..)
+import Main.Update exposing (..)
 import Dict exposing (get)
 import Tuple exposing (first, second)
 import Utils exposing (noElement)
 
 
-generateCategories : Categories -> Technologies -> Html msg
+generateCategories : Categories -> Technologies -> Html Msg
 generateCategories categories technologies =
     div [ class "categories-block" ]
         (categories.data
@@ -22,7 +24,7 @@ generateCategories categories technologies =
         )
 
 
-generateSelectedOrNotCategoryBlock : Category -> SelectedCategory -> Technologies -> Html msg
+generateSelectedOrNotCategoryBlock : Category -> SelectedCategory -> Technologies -> Html Msg
 generateSelectedOrNotCategoryBlock category selected =
     case selected of
         Just selected ->
@@ -35,7 +37,7 @@ generateSelectedOrNotCategoryBlock category selected =
             generateNotSelectedBlock category
 
 
-generateSelectedBlock : Category -> Technologies -> Html msg
+generateSelectedBlock : Category -> Technologies -> Html Msg
 generateSelectedBlock category technologies =
     div
         [
@@ -53,7 +55,7 @@ generateSelectedBlock category technologies =
         ]
 
 
-generateNotSelectedBlock : Category -> Technologies -> Html msg
+generateNotSelectedBlock : Category -> Technologies -> Html Msg
 generateNotSelectedBlock category technologies =
     div
         [ class "category-item"
@@ -65,25 +67,29 @@ generateNotSelectedBlock category technologies =
             ]
         , div
             []
-            (generateCategoryTechnologies category.technologies technologies)
+            (generateCategoryTechnologies category technologies)
         ]
 
 
-generateCategoryTechnologies : List String -> Technologies -> List (Html msg)
-generateCategoryTechnologies ids technologies =
-    ids
+generateCategoryTechnologies : Category -> Technologies -> List (Html Msg)
+generateCategoryTechnologies category technologies =
+    category.technologies
         |> List.map
             (\id ->
                 (get id technologies)
-                    |> generateTechnologyIfExists id
+                    |> generateTechnologyIfExists category.id
             )
 
 
-generateTechnologyIfExists : String -> Maybe Technology  -> Html msg
+generateTechnologyIfExists : String -> Maybe Technology  -> Html Msg
 generateTechnologyIfExists id technology =
     case technology of
         Just technology ->
             div [
+                onClick (
+                   Just (id, technology.id) |> SelectCategoryTechnology
+                                            |> CategoryMsg
+                )
             ]
             [ generateTechnologyItem ( technology.id, technology ) ]
 
