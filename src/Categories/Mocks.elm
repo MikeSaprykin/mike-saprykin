@@ -5,6 +5,13 @@ import Categories.Models exposing (..)
 
 categoriesMocks : Categories
 categoriesMocks =
+    { selected = Just ( "111", "123" )
+    , data = categories
+    }
+
+
+categories : List Category
+categories =
     [ { id = "111"
       , title = "Front-End"
       , technologies =

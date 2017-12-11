@@ -8,15 +8,14 @@ import Json.Decode as Decode exposing (..)
 import Json.Decode.Extra exposing (..)
 import Json.Encode as Encode
 import Technologies.Models exposing (Technologies)
-import Technologies.Views exposing (generateTechnologies)
 import Technologies.Mock exposing (mockTechnologies)
-import Categories.Models exposing (Categories)
+import Categories.Models exposing (..)
 import Categories.View exposing (generateCategories)
 import Categories.Mocks exposing (categoriesMocks)
+import Categories.Update exposing (..)
 
 
 ---- MODEL ----
-
 
 type alias Description =
     { icon : String
@@ -120,10 +119,12 @@ generateQuery query =
 
 
 type Msg
-    = None
+    =
+    Categories CategoriesMsg
     | ToggleSideBar
     | LoadData
     | LoadDataResult (Result Http.Error Descriptions)
+    | None
 
 
 update : Msg -> Model -> ( Model, Cmd Msg )
@@ -143,6 +144,18 @@ update msg model =
 
         LoadDataResult (Err _) ->
             ( model, Cmd.none )
+        Categories (SelectCategoryTechnology selected) ->
+            let
+                msg = SelectCategoryTechnology selected
+                categories = model.categories
+            in
+                ( { model | categories = categoryUpdate msg categories }, Cmd.none)
+        Categories UnSelectCategoryTechnology ->
+            let
+                msg = UnSelectCategoryTechnology
+                categories = model.categories
+            in
+                ( { model | categories = categoryUpdate msg categories }, Cmd.none)
 
 
 loadData : Cmd Msg

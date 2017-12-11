@@ -5,24 +5,63 @@ import Html.Attributes exposing (..)
 import Categories.Models exposing (..)
 import Technologies.Models exposing (..)
 import Technologies.Views exposing (..)
+import Categories.Update exposing (..)
 import Dict exposing (get)
+import Tuple exposing (first, second)
 import Utils exposing (noElement)
 
 
 generateCategories : Categories -> Technologies -> Html msg
 generateCategories categories technologies =
     div [ class "categories-block" ]
-        (List.map (\i -> generateCategoryItem i technologies) categories)
+        (categories.data
+            |> List.map
+                (\i ->
+                    technologies |> generateSelectedOrNotCategoryBlock i categories.selected
+                )
+        )
 
 
-generateCategoryItem : Category -> Technologies -> Html msg
-generateCategoryItem category technologies =
-    div [ class "category-item" ]
+generateSelectedOrNotCategoryBlock : Category -> SelectedCategory -> Technologies -> Html msg
+generateSelectedOrNotCategoryBlock category selected =
+    case selected of
+        Just selected ->
+            if first selected == category.id then
+                generateSelectedBlock category
+            else
+                generateNotSelectedBlock category
+
+        Nothing ->
+            generateNotSelectedBlock category
+
+
+generateSelectedBlock : Category -> Technologies -> Html msg
+generateSelectedBlock category technologies =
+    div
+        [
+            class "category-item"
+            , class "category-selected"
+        ]
         [ h2 []
-            [
-            text category.title
+            [ text category.title
             , hr [] []
-            , p [] [text "Technologies"]
+            , p [] [ text "Technologies" ]
+            ]
+        , div
+            []
+            []
+        ]
+
+
+generateNotSelectedBlock : Category -> Technologies -> Html msg
+generateNotSelectedBlock category technologies =
+    div
+        [ class "category-item"
+        ]
+        [ h2 []
+            [ text category.title
+            , hr [] []
+            , p [] [ text "Technologies" ]
             ]
         , div
             []
@@ -35,16 +74,18 @@ generateCategoryTechnologies ids technologies =
     ids
         |> List.map
             (\id ->
-                get id technologies
-                    |> generateTechnologyIfExists
+                (get id technologies)
+                    |> generateTechnologyIfExists id
             )
 
 
-generateTechnologyIfExists : Maybe Technology -> Html msg
-generateTechnologyIfExists technology =
+generateTechnologyIfExists : String -> Maybe Technology  -> Html msg
+generateTechnologyIfExists id technology =
     case technology of
         Just technology ->
-            generateTechnologyItem ( technology.id, technology )
+            div [
+            ]
+            [ generateTechnologyItem ( technology.id, technology ) ]
 
         Nothing ->
             noElement

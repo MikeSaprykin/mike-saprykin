@@ -2,7 +2,13 @@ module Categories.Models exposing (..)
 
 
 type alias Categories =
-    List Category
+    { selected : SelectedCategory
+    , data : List Category
+    }
+
+
+type alias SelectedCategory =
+    Maybe ( String, String )
 
 
 type alias Category =
