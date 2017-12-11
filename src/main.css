@@ -145,3 +145,7 @@ header.header-block .header-image {
 .side-bar-closed {
   width: 0;
 }
+
+.category-selected {
+  border: 2px solid red;
+}
