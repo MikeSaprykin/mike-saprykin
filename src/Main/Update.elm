@@ -1,11 +1,11 @@
 module Main.Update exposing (..)
 import Http
 import Main.Models exposing (..)
-import Categories.Update exposing (..)
+import Categories.Update as Categories exposing (categoryUpdate)
 
 type Msg
     =
-    CategoryMsg CategoriesMsg
+    CategoryMsg Categories.Msg
     | ToggleSideBar
     | LoadData
     | LoadDataResult (Result Http.Error Descriptions)
@@ -29,15 +29,8 @@ update msg model =
 
         LoadDataResult (Err _) ->
             ( model, Cmd.none )
-        CategoryMsg (SelectCategoryTechnology selected) ->
+        CategoryMsg msg ->
             let
-                msg = SelectCategoryTechnology selected
-                categories = model.categories
-            in
-                ( { model | categories = categoryUpdate msg categories }, Cmd.none)
-        CategoryMsg UnSelectCategoryTechnology ->
-            let
-                msg = UnSelectCategoryTechnology
                 categories = model.categories
             in
                 ( { model | categories = categoryUpdate msg categories }, Cmd.none)

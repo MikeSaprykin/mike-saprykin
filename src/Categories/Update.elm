@@ -2,7 +2,7 @@ module Categories.Update exposing (..)
 
 import Categories.Models exposing (..)
 
-type CategoriesMsg
+type Msg
     = SelectCategoryTechnology SelectedCategory
     | UnSelectCategoryTechnology
 
@@ -20,7 +20,7 @@ onUnSelectCategory categories =
     categories |> updateSelected Nothing
 
 
-categoryUpdate : CategoriesMsg -> Categories -> Categories
+categoryUpdate : Msg -> Categories -> Categories
 categoryUpdate msg categories =
     case msg of
         SelectCategoryTechnology selected ->

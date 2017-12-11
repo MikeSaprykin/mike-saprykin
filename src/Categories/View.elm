@@ -7,7 +7,6 @@ import Categories.Models exposing (..)
 import Technologies.Models exposing (..)
 import Technologies.Views exposing (..)
 import Categories.Update exposing (..)
-import Main.Update exposing (..)
 import Dict exposing (get)
 import Tuple exposing (first, second)
 import Utils exposing (noElement)
@@ -43,6 +42,7 @@ generateSelectedBlock category technologies =
         [
             class "category-item"
             , class "category-selected"
+            , onClick UnSelectCategoryTechnology
         ]
         [ h2 []
             [ text category.title
@@ -88,7 +88,6 @@ generateTechnologyIfExists id technology =
             div [
                 onClick (
                    Just (id, technology.id) |> SelectCategoryTechnology
-                                            |> CategoryMsg
                 )
             ]
             [ generateTechnologyItem ( technology.id, technology ) ]
