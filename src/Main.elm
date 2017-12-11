@@ -7,8 +7,9 @@ import Http
 import Json.Decode as Decode exposing (..)
 import Json.Decode.Extra exposing (..)
 import Json.Encode as Encode
-import Debug exposing (log)
-import Css exposing (..)
+import Technologies.Models exposing (Technologies)
+import Technologies.Views exposing (generateTechnologies)
+import Technologies.Mock exposing (mockTechnologies)
 
 
 ---- MODEL ----
@@ -57,6 +58,7 @@ type alias Model =
     { sideBarOpen : Bool
     , mainImage : String
     , response : Maybe Descriptions
+    , technologies : Technologies
     }
 
 
@@ -65,6 +67,7 @@ init =
     ( { sideBarOpen = False
       , mainImage = ""
       , response = Nothing
+      , technologies = mockTechnologies
       }
     , loadData
     )
@@ -312,6 +315,7 @@ view model =
             [ sideBarView model ]
         , generateAboutMeView model
         , hr [] []
+        , div [] (generateTechnologies model.technologies)
         ]
 
 
