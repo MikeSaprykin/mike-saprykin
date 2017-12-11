@@ -15,8 +15,8 @@ generateTechnologies technologies =
         |> List.map generateTechnologyItem
 
 
-generateTechnologyItem : ( String, Technology) -> Html msg
-generateTechnologyItem (key, technology) =
+generateTechnologyItem : ( String, Technology ) -> Html msg
+generateTechnologyItem ( key, technology ) =
     div [ class "technology-item" ]
         [ p [] [ text technology.icon ]
         , p [] [ text technology.title ]

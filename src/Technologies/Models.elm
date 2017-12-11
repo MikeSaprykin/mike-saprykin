@@ -2,6 +2,7 @@
 
 
 module Technologies.Models exposing (..)
+
 import Dict exposing (..)
 
 
@@ -20,5 +21,5 @@ type alias TechnologyDetail =
     }
 
 
-type alias Technologies
-    = Dict String Technology
+type alias Technologies =
+    Dict String Technology

@@ -10,6 +10,9 @@ import Json.Encode as Encode
 import Technologies.Models exposing (Technologies)
 import Technologies.Views exposing (generateTechnologies)
 import Technologies.Mock exposing (mockTechnologies)
+import Categories.Models exposing (Categories)
+import Categories.View exposing (generateCategories)
+import Categories.Mocks exposing (categoriesMocks)
 
 
 ---- MODEL ----
@@ -59,6 +62,7 @@ type alias Model =
     , mainImage : String
     , response : Maybe Descriptions
     , technologies : Technologies
+    , categories : Categories
     }
 
 
@@ -68,6 +72,7 @@ init =
       , mainImage = ""
       , response = Nothing
       , technologies = mockTechnologies
+      , categories = categoriesMocks
       }
     , loadData
     )
@@ -315,7 +320,9 @@ view model =
             [ sideBarView model ]
         , generateAboutMeView model
         , hr [] []
-        , div [] (generateTechnologies model.technologies)
+        , div []
+            [ generateCategories model.categories model.technologies
+            ]
         ]
 
 

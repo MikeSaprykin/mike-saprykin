@@ -9,7 +9,7 @@ mockTechnologies =
     Dict.fromList mockTechnologyList
 
 
-mockTechnologyList : List (String, Technology)
+mockTechnologyList : List ( String, Technology )
 mockTechnologyList =
     [ ( "123"
       , { id = "123"
