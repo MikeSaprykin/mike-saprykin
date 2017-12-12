@@ -15,7 +15,7 @@ init : ( Model, Cmd Msg )
 init =
     ( { sideBarOpen = False
       , mainImage = ""
-      , response = Nothing
+      , descriptions = Nothing
       , technologies = mockTechnologies
       , categories = categoriesMocks
       }

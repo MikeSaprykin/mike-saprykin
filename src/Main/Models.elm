@@ -28,7 +28,7 @@ type alias DescriptionsData =
 type alias Model =
     { sideBarOpen : Bool
     , mainImage : String
-    , response : Maybe Descriptions
+    , descriptions : Maybe Descriptions
     , technologies : Technologies
     , categories : Categories
     }

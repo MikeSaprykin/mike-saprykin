@@ -2,9 +2,9 @@ module Main.Request exposing (..)
 import Http
 import Json.Decode as Decode exposing (..)
 import Json.Decode.Extra exposing (..)
-import Json.Encode as Encode
 import Main.Models exposing (Description, DescriptionsData, Descriptions)
 import Main.Update exposing (..)
+import Utils exposing (..)
 
 decodeDescription : Decode.Decoder Descriptions
 decodeDescription =
@@ -27,14 +27,9 @@ decodeDescriptionItem =
         (field "_id" string)
 
 
-graphQLApiUrl : String
-graphQLApiUrl =
-    "http://localhost:8080/graphql"
-
-
-descriptionsQuery : String
+descriptionsQuery : Http.Body
 descriptionsQuery =
-    """
+    graphQLBodyWithoutVariables """
         {
             descriptions {
               title
@@ -45,28 +40,11 @@ descriptionsQuery =
         }
     """
 
-
-type alias QueryPayload =
-    { query : String
-    , operationName : String
-    , variables : {}
-    }
-
-
-generateQuery : String -> Http.Body
-generateQuery query =
-    Http.jsonBody
-        (Encode.object
-            [ ( "query", Encode.string <| query )
-            , ( "operationName", Encode.string <| "" )
-            , ( "variables", Encode.object [ ( "", Encode.string <| "" ) ] )
-            ]
-        )
+descriptionsRequest : Http.Request Descriptions
+descriptionsRequest =
+    graphQLRequest descriptionsQuery decodeDescription
 
 loadData : Cmd Msg
 loadData =
-    let
-        request =
-            Http.post graphQLApiUrl (generateQuery descriptionsQuery) decodeDescription
-    in
-        Http.send LoadDataResult request
+    Http.send LoadDataResult descriptionsRequest
+

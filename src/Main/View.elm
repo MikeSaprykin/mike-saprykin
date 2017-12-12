@@ -137,7 +137,7 @@ generateAboutMeItem item =
 
 generateAboutMeBlocks : Model -> List (Html msg)
 generateAboutMeBlocks model =
-    case model.response of
+    case model.descriptions of
         Just response ->
             let
                 items =

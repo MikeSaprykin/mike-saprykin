@@ -25,7 +25,7 @@ update msg model =
             ( model, Cmd.none )
 
         LoadDataResult (Ok data) ->
-            ( { model | response = Just data }, Cmd.none )
+            ( { model | descriptions = Just data }, Cmd.none )
 
         LoadDataResult (Err _) ->
             ( model, Cmd.none )
