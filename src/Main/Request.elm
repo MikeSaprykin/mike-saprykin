@@ -37,6 +37,14 @@ descriptionsQuery =
               description
               icon
             }
+            technologies {
+                _id
+                title
+            }
+            categories {
+                _id
+                title
+            }
         }
     """
 
