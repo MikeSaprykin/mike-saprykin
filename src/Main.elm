@@ -2,7 +2,8 @@ module Main exposing (..)
 
 import Html exposing (program)
 import Technologies.Mock exposing (mockTechnologies)
-import Categories.Mocks exposing (categoriesMocks)
+import Categories.Models exposing (categoriesInit)
+import Descriptions.Models exposing (descriptionsInit)
 import Main.Request exposing (loadData)
 import Main.Models exposing (Model)
 import Main.Update exposing (Msg, update)
@@ -11,16 +12,20 @@ import Main.View exposing (view)
 
 ---- PROGRAM ----
 
+
 init : ( Model, Cmd Msg )
 init =
     ( { sideBarOpen = False
       , mainImage = ""
-      , descriptions = Nothing
+      , data =
+            { categories = categoriesInit
+            , descriptions = descriptionsInit
+            }
       , technologies = mockTechnologies
-      , categories = categoriesMocks
       }
     , loadData
     )
+
 
 main : Program Never Model Msg
 main =

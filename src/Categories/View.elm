@@ -15,7 +15,7 @@ import Utils exposing (noElement)
 generateCategories : Categories -> Technologies -> Html Msg
 generateCategories categories technologies =
     div [ class "categories-block" ]
-        (categories.data
+        (categories.data.categories
             |> List.map
                 (\i ->
                     technologies |> generateSelectedOrNotCategoryBlock i categories.selected
@@ -39,10 +39,9 @@ generateSelectedOrNotCategoryBlock category selected =
 generateSelectedBlock : Category -> Technologies -> Html Msg
 generateSelectedBlock category technologies =
     div
-        [
-            class "category-item"
-            , class "category-selected"
-            , onClick UnSelectCategoryTechnology
+        [ class "category-item"
+        , class "category-selected"
+        , onClick UnSelectCategoryTechnology
         ]
         [ h2 []
             [ text category.title
@@ -81,16 +80,15 @@ generateCategoryTechnologies category technologies =
             )
 
 
-generateTechnologyIfExists : String -> Maybe Technology  -> Html Msg
+generateTechnologyIfExists : String -> Maybe Technology -> Html Msg
 generateTechnologyIfExists id technology =
     case technology of
         Just technology ->
-            div [
-                onClick (
-                   Just (id, technology.id) |> SelectCategoryTechnology
-                )
-            ]
-            [ generateTechnologyItem ( technology.id, technology ) ]
+            div
+                [ onClick
+                    (Just ( id, technology.id ) |> SelectCategoryTechnology)
+                ]
+                [ generateTechnologyItem ( technology.id, technology ) ]
 
         Nothing ->
             noElement

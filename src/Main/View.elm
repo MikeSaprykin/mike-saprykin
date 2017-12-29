@@ -1,10 +1,13 @@
 module Main.View exposing (..)
+
 import Html exposing (..)
 import Html.Attributes exposing (..)
 import Html.Events exposing (onClick)
 import Main.Update exposing (..)
 import Main.Models exposing (..)
 import Categories.View exposing (generateCategories)
+import Descriptions.Models exposing (..)
+
 
 ---- VIEW ----
 --- SIDE BAR ---
@@ -136,18 +139,8 @@ generateAboutMeItem item =
 
 
 generateAboutMeBlocks : Model -> List (Html msg)
-generateAboutMeBlocks model =
-    case model.descriptions of
-        Just response ->
-            let
-                items =
-                    response.data.descriptions
-            in
-                items
-                    |> List.map generateAboutMeItem
-
-        Nothing ->
-            []
+generateAboutMeBlocks { data } =
+    List.map generateAboutMeItem data.descriptions.data.descriptions
 
 
 generateAboutMeView : Model -> Html msg
@@ -171,5 +164,5 @@ view model =
             [ sideBarView model ]
         , generateAboutMeView model
         , hr [] []
-        , Html.map CategoryMsg (generateCategories model.categories model.technologies)
+        , Html.map CategoryMsg (generateCategories model.data.categories model.technologies)
         ]

@@ -9,11 +9,13 @@ import Html exposing (text)
 noElement =
     text ""
 
+
 graphQLApiUrl : String
 graphQLApiUrl =
     "http://localhost:8080/graphql"
 
-graphQLBody : String -> List (String, Value) -> Body
+
+graphQLBody : String -> List ( String, Value ) -> Body
 graphQLBody query variables =
     jsonBody
         (object
@@ -23,11 +25,12 @@ graphQLBody query variables =
             ]
         )
 
+
 graphQLBodyWithoutVariables : String -> Body
 graphQLBodyWithoutVariables query =
     graphQLBody query [ ( "", string <| "" ) ]
 
+
 graphQLRequest : Body -> Decoder a -> Request a
 graphQLRequest body decoder =
     post graphQLApiUrl body decoder
-

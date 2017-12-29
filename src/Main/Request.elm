@@ -1,15 +1,24 @@
 module Main.Request exposing (..)
+
 import Http
 import Json.Decode as Decode exposing (..)
 import Json.Decode.Extra exposing (..)
-import Main.Models exposing (Description, DescriptionsData, Descriptions)
+import Main.Models exposing (ModelData)
 import Main.Update exposing (..)
 import Utils exposing (..)
+import Categories.Request exposing (..)
+import Descriptions.Models exposing (..)
 
-decodeDescription : Decode.Decoder Descriptions
+rootDecoder : Decoder ModelData
+rootDecoder =
+    map2 ModelData
+        ( field "descriptions" decodeDescription)
+        (field "categories" categoriesDecoder)
+
+decodeDescription : Decoder Descriptions
 decodeDescription =
-    Decode.succeed Descriptions
-        |: (field "data" decodeDescriptionData)
+    map Descriptions
+       (field "data" decodeDescriptionData)
 
 
 decodeDescriptionData : Decode.Decoder DescriptionsData
@@ -27,11 +36,13 @@ decodeDescriptionItem =
         (field "_id" string)
 
 
-descriptionsQuery : Http.Body
-descriptionsQuery =
-    graphQLBodyWithoutVariables """
+rootQuery : String
+rootQuery =
+    """
         {
-            descriptions {
+    """
+        ++ """
+        descriptions {
               title
               _id
               description
@@ -41,18 +52,23 @@ descriptionsQuery =
                 _id
                 title
             }
-            categories {
-                _id
-                title
-            }
+    """
+        ++ categoriesQuery
+        ++ """
         }
     """
 
-descriptionsRequest : Http.Request Descriptions
-descriptionsRequest =
-    graphQLRequest descriptionsQuery decodeDescription
+
+rootRequest : Http.Request ModelData
+rootRequest =
+    graphQLRequest (graphQLBodyWithoutVariables rootQuery) rootDecoder
+
 
 loadData : Cmd Msg
 loadData =
-    Http.send LoadDataResult descriptionsRequest
+    Http.send LoadDataResult rootRequest
 
+
+rootGraphQLRequest : Cmd Msg
+rootGraphQLRequest =
+    Http.send LoadDataResult rootRequest

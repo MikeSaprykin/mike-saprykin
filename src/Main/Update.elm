@@ -1,14 +1,16 @@
 module Main.Update exposing (..)
+
 import Http
 import Main.Models exposing (..)
 import Categories.Update as Categories exposing (categoryUpdate)
+import Debug exposing (log)
+
 
 type Msg
-    =
-    CategoryMsg Categories.Msg
+    = CategoryMsg Categories.Msg
     | ToggleSideBar
     | LoadData
-    | LoadDataResult (Result Http.Error Descriptions)
+    | LoadDataResult (Result Http.Error ModelData)
     | None
 
 
@@ -25,12 +27,30 @@ update msg model =
             ( model, Cmd.none )
 
         LoadDataResult (Ok data) ->
-            ( { model | descriptions = Just data }, Cmd.none )
+            let
+                data =
+                    model.data
+                newData =
+                    { data | descriptions = data.descriptions }
+                newModel =
+                    { model | data = newData }
+            in
+                ( newModel, Cmd.none )
 
-        LoadDataResult (Err _) ->
+        LoadDataResult (Err e) ->
+                let
+                    _ =
+                        log(toString e)
+                 in
             ( model, Cmd.none )
+
         CategoryMsg msg ->
             let
-                categories = model.categories
+                data =
+                    model.data
+                newData =
+                    { data | categories =  categoryUpdate msg model.data.categories }
+                newModel =
+                    { model | data = newData }
             in
-                ( { model | categories = categoryUpdate msg categories }, Cmd.none)
+                ( newModel, Cmd.none )
