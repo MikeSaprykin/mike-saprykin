@@ -26,30 +26,37 @@ update msg model =
         LoadData ->
             ( model, Cmd.none )
 
-        LoadDataResult (Ok data) ->
+        LoadDataResult (Ok { data }) ->
             let
-                data =
+                modelData =
                     model.data
+
                 newData =
-                    { data | descriptions = data.descriptions }
+                    {
+                        categories = data.categories
+                        , descriptions = data.descriptions
+                    }
+
                 newModel =
                     { model | data = newData }
             in
                 ( newModel, Cmd.none )
 
         LoadDataResult (Err e) ->
-                let
-                    _ =
-                        log(toString e)
-                 in
-            ( model, Cmd.none )
+            let
+                _ =
+                    log "ERROR" (toString e)
+            in
+                ( model, Cmd.none )
 
         CategoryMsg msg ->
             let
                 data =
                     model.data
+
                 newData =
-                    { data | categories =  categoryUpdate msg model.data.categories }
+                    { data | categories = categoryUpdate msg model.data.categories }
+
                 newModel =
                     { model | data = newData }
             in

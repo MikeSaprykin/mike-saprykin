@@ -3,7 +3,7 @@ module Main.Request exposing (..)
 import Http
 import Json.Decode as Decode exposing (..)
 import Json.Decode.Extra exposing (..)
-import Main.Models exposing (ModelData)
+import Main.Models exposing (ModelData, Data)
 import Main.Update exposing (..)
 import Utils exposing (..)
 import Categories.Request exposing (..)
@@ -11,20 +11,14 @@ import Descriptions.Models exposing (..)
 
 rootDecoder : Decoder ModelData
 rootDecoder =
-    map2 ModelData
-        ( field "descriptions" decodeDescription)
+    succeed ModelData
+        |: (field "data" decodeData)
+
+decodeData : Decoder Data
+decodeData =
+    map2 Data
+        (field "descriptions" (list decodeDescriptionItem))
         (field "categories" categoriesDecoder)
-
-decodeDescription : Decoder Descriptions
-decodeDescription =
-    map Descriptions
-       (field "data" decodeDescriptionData)
-
-
-decodeDescriptionData : Decode.Decoder DescriptionsData
-decodeDescriptionData =
-    Decode.succeed DescriptionsData
-        |: (field "descriptions" (Decode.list decodeDescriptionItem))
 
 
 decodeDescriptionItem : Decode.Decoder Description

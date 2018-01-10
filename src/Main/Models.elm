@@ -8,16 +8,18 @@ import Descriptions.Models exposing (Descriptions, descriptionsInit)
 
 ---- MODEL ----
 
-
-type alias ModelData =
+type alias Data =
     { descriptions : Descriptions
     , categories : Categories
     }
+
+type alias ModelData =
+    { data : Data }
 
 
 type alias Model =
     { sideBarOpen : Bool
     , mainImage : String
-    , data : ModelData
+    , data : Data
     , technologies : Technologies
     }

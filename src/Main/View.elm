@@ -140,7 +140,7 @@ generateAboutMeItem item =
 
 generateAboutMeBlocks : Model -> List (Html msg)
 generateAboutMeBlocks { data } =
-    List.map generateAboutMeItem data.descriptions.data.descriptions
+    List.map generateAboutMeItem data.descriptions
 
 
 generateAboutMeView : Model -> Html msg

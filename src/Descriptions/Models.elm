@@ -1,5 +1,6 @@
 module Descriptions.Models exposing (..)
 
+
 type alias Description =
     { icon : String
     , title : String
@@ -8,18 +9,8 @@ type alias Description =
     }
 
 
-type alias Descriptions =
-    { data : DescriptionsData
-    }
+type alias Descriptions = List Description
 
-
-type alias DescriptionsData =
-    { descriptions : List Description
-    }
 
 descriptionsInit : Descriptions
-descriptionsInit =
-    { data =
-            { descriptions = []
-        }
-    }
+descriptionsInit = []
