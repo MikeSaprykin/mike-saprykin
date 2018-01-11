@@ -1,7 +1,9 @@
 module Categories.Models exposing (..)
 
 
-type alias Categories = List Category
+type alias Categories =
+    List Category
+
 
 type alias SelectedCategory =
     Maybe ( String, String )
@@ -15,4 +17,5 @@ type alias Category =
 
 
 categoriesInit : Categories
-categoriesInit = []
+categoriesInit =
+    []

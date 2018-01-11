@@ -4,13 +4,14 @@ import Http
 import Main.Models exposing (..)
 import Categories.Update as Categories exposing (categoryUpdate)
 import Debug exposing (log)
+import Dict
 
 
 type Msg
     = CategoryMsg Categories.Msg
     | ToggleSideBar
     | LoadData
-    | LoadDataResult (Result Http.Error ModelData)
+    | LoadDataResult (Result Http.Error ResponseData)
     | None
 
 
@@ -32,9 +33,9 @@ update msg model =
                     model.data
 
                 newData =
-                    {
-                        categories = data.categories
-                        , descriptions = data.descriptions
+                    { categories = data.categories
+                    , descriptions = data.descriptions
+                    , technologies = Dict.fromList (List.map (\i -> ( i.id, i )) data.technologies)
                     }
 
                 newModel =

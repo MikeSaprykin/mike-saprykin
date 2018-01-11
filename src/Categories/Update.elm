@@ -8,16 +8,13 @@ type Msg
     | UnSelectCategoryTechnology
 
 
+
 --updateSelected : SelectedCategory -> Categories -> Categories
 --updateSelected selected categories =
 --    { categories | selected = selected }
-
-
 --onSelectCategory : Categories -> SelectedCategory -> Categories
 --onSelectCategory categories selected =
 --    categories |> updateSelected selected
-
-
 --onUnSelectCategory : Categories -> Categories
 --onUnSelectCategory categories =
 --    categories |> updateSelected Nothing

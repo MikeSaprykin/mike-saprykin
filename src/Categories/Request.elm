@@ -14,12 +14,15 @@ categoriesQuery =
         }
     """
 
+
 categoriesDecoder : Decode.Decoder Categories
-categoriesDecoder = list decodeCategoryItem
+categoriesDecoder =
+    list decodeCategoryItem
+
 
 decodeCategoryItem : Decode.Decoder Category
 decodeCategoryItem =
     Decode.map3 Category
-        (field "title" string)
         (field "_id" string)
+        (field "title" string)
         (field "technologies" (list string))

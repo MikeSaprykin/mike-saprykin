@@ -23,3 +23,8 @@ type alias TechnologyDetail =
 
 type alias Technologies =
     Dict String Technology
+
+
+technologiesInit : Technologies
+technologiesInit =
+    Dict.empty

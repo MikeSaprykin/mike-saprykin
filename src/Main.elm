@@ -1,9 +1,9 @@
 module Main exposing (..)
 
 import Html exposing (program)
-import Technologies.Mock exposing (mockTechnologies)
 import Categories.Models exposing (categoriesInit)
 import Descriptions.Models exposing (descriptionsInit)
+import Technologies.Models exposing (technologiesInit)
 import Main.Request exposing (loadData)
 import Main.Models exposing (Model)
 import Main.Update exposing (Msg, update)
@@ -20,8 +20,8 @@ init =
       , data =
             { categories = categoriesInit
             , descriptions = descriptionsInit
+            , technologies = technologiesInit
             }
-      , technologies = mockTechnologies
       }
     , loadData
     )

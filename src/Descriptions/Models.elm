@@ -9,8 +9,10 @@ type alias Description =
     }
 
 
-type alias Descriptions = List Description
+type alias Descriptions =
+    List Description
 
 
 descriptionsInit : Descriptions
-descriptionsInit = []
+descriptionsInit =
+    []

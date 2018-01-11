@@ -164,5 +164,5 @@ view model =
             [ sideBarView model ]
         , generateAboutMeView model
         , hr [] []
-        , Html.map CategoryMsg (generateCategories model.data.categories model.technologies)
+        , Html.map CategoryMsg (generateCategories model.data.categories model.data.technologies)
         ]
