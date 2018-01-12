@@ -15,7 +15,7 @@ categoriesQuery =
     """
 
 
-categoriesDecoder : Decode.Decoder Categories
+categoriesDecoder : Decode.Decoder (List Category)
 categoriesDecoder =
     list decodeCategoryItem
 

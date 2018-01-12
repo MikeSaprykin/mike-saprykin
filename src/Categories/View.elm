@@ -13,12 +13,12 @@ import Utils exposing (noElement)
 
 
 generateCategories : Categories -> Technologies -> Html Msg
-generateCategories categories technologies =
+generateCategories { data, selected } technologies =
     div [ class "categories-block" ]
-        (categories
+        (data
             |> List.map
                 (\i ->
-                    technologies |> generateSelectedOrNotCategoryBlock i Nothing
+                    technologies |> generateSelectedOrNotCategoryBlock i selected
                 )
         )
 

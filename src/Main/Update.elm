@@ -33,7 +33,11 @@ update msg model =
                     model.data
 
                 newData =
-                    { categories = data.categories
+                    { categories =
+                        {
+                            data = data.categories
+                            , selected = Nothing
+                        }
                     , descriptions = data.descriptions
                     , technologies = Dict.fromList (List.map (\i -> ( i.id, i )) data.technologies)
                     }

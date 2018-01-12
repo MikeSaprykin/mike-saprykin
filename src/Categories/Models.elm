@@ -1,9 +1,9 @@
 module Categories.Models exposing (..)
 
-
 type alias Categories =
-    List Category
-
+    { data : List Category
+    , selected : SelectedCategory
+    }
 
 type alias SelectedCategory =
     Maybe ( String, String )
@@ -18,4 +18,6 @@ type alias Category =
 
 categoriesInit : Categories
 categoriesInit =
-    []
+    { data = []
+    , selected = Nothing
+    }

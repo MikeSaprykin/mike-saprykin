@@ -10,12 +10,10 @@ import Categories.Request exposing (..)
 import Descriptions.Models exposing (..)
 import Technologies.Models exposing (Technology, TechnologyDetail)
 
-
 rootDecoder : Decoder ResponseData
 rootDecoder =
     succeed ResponseData
         |: (field "data" decodeData)
-
 
 decodeData : Decoder Data
 decodeData =

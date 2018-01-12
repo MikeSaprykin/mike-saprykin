@@ -1,7 +1,7 @@
 module Main.Models exposing (..)
 
 import Technologies.Models exposing (Technologies, Technology)
-import Categories.Models exposing (Categories)
+import Categories.Models exposing (Categories, Category)
 import Descriptions.Models exposing (Descriptions, descriptionsInit)
 
 
@@ -10,7 +10,7 @@ import Descriptions.Models exposing (Descriptions, descriptionsInit)
 
 type alias Data =
     { descriptions : Descriptions
-    , categories : Categories
+    , categories : List Category
     , technologies : List Technology
     }
 
